@@ -12,7 +12,6 @@ const SelectionList = ({ children, isSingleSelection = false }) => {
   useEffect(() => setSelectedIds([]), [isSingleSelection]);
 
   const handleSelectionId = (id) => {
-    // NOTE: if we need to support forced selections we can merge selections here
     if (isSingleSelection) {
       setSelectedIds([id]);
       return;
