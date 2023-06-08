@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import useMockData from "./hooks/useMockData";
+import SelectionList from "./components/SelectionList.jsx";
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [isSingleSelection, setSingleSelection] = useState(false);
+    const items = useMockData();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const handleAccept = (ids) => console.log(`Accepting id: ${ids}`);
+    const handleReject = (ids) => console.log(`Rejecting id: ${ids}`);
+
+    return (
+        <>
+            <SelectionList
+                isSingleSelection={isSingleSelection}
+            >
+                <SelectionList.InputSearch />
+                <SelectionList.List>
+                    {items.map((c) => (
+                        <SelectionList.Item key={c.id} value={c.id} text={c.name} />
+                    ))}
+                </SelectionList.List>
+                <section>
+                    <SelectionList.SubmitButton text="Confirm" onSubmit={handleAccept}/>
+                    <SelectionList.SubmitButton text="Reject" onSubmit={handleReject}/>
+                </section>
+            </SelectionList>
+            <button onClick={() => setSingleSelection((prev) => !prev)}>
+                toggle selection
+            </button>
+        </>
+    );
 }
 
-export default App
+export default App;
